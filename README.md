@@ -16,15 +16,62 @@ Deployment and environment management on AWS
 The challenge of this project focused heavily on integrating a third-party authentication provider (Firebase) into a full Spring Boot backend while ensuring that every API call remained authenticated and secure.
 
 🧱 System Architecture
+The backend supports two clients: a mobile app for students and an admin web portal. The system is deployed on AWS Elastic Beanstalk and uses Firebase Authentication for secure login and token validation. Data is stored in Firebase Firestore, a NoSQL cloud database.
 
-(You will place your diagram here)
-Suggestion: Add diagrams for:
+Components:
 
-Authentication flow (Firebase → Spring Boot)
+Mobile Application
 
-Request/response lifecycle
+Authenticates users via Firebase
 
-AWS deployment architecture
+Sends ID tokens with each request
+
+Accesses endpoints for viewing courses, lessons, and tracking progress
+
+Admin Portal
+
+Restricted to admin-role users
+
+Manages courses, content, and users
+
+Performs CRUD operations via secured endpoints
+
+Backend (Spring Boot)
+
+Receives all client requests
+
+Validates Firebase tokens for authentication
+
+Checks user roles for access control (admin vs student)
+
+Processes business logic and communicates with Firestore
+
+Database (Firebase Firestore)
+
+Stores user profiles, courses, lessons, progress, and admin actions
+
+NoSQL document-based structure for flexible and scalable storage
+
+Fully cloud-hosted with real-time update capabilities
+
+Deployment (AWS Elastic Beanstalk)
+
+Auto-scaling and managed EC2 instances
+
+Environment variables securely stored in EB
+
+Health monitoring and rolling updates handled automatically
+
+Data Flow Summary
+
+Users sign in/up via Firebase → receive an ID token
+
+Mobile app or admin portal sends requests with the token → Spring Boot backend
+
+Backend validates the token and user role → performs actions on Firestore
+
+Backend returns responses → clients update UI
+
 
 🔐 Authentication Flow (Firebase + Spring Boot)
 
